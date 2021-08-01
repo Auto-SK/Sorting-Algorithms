@@ -82,22 +82,48 @@ def bubble_sort_pro(arr):
 
 ```python
 def selection_sort(arr):
-    for i in range(len(arr) - 1):
-        min_index = i
-        fo
+    for i in range(len(arr) - 1):           # 循环第 i 趟
+        min_index = i                       # 记录最小数的下标
+        for j in range(i + 1, len(arr)):    # j 为下标
+            if arr[j] < arr[min_index]:     # 如果这个数小于记录的最小数则更新最小数的下标
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]  # 将已排序序列末尾的数和最小数交换
+    return arr
 ```
 
-
-
-## 3 插入排序
+## 3 插入排序（Insertion Sort）
 
 ### 3.1 原理
 
+插入排序一般也被称为直接插入排序。对于少量元素的排序，它是一个有效的算法。它的基本思想是将一个记录插入到已经排好序的有序表中，从而形成一个新的有序表。在其实现过程使用双层循环，外层循环对除了第一个元素之外的所有元素进行遍历，内层循环对当前元素前面有序表进行待插入位置查找，并进行移动。
+
+插入排序的工作方式像许多人排序一手扑克牌。开始时，我们的左手为空并且桌子上的牌面向下。然后，我们每次从桌子上拿走一张牌并将它插入左手中正确的位置。为了找到一张牌的正确位置，我们从右到左将它与已在手中的每张牌进行比较。拿在左手上的牌总是排序好的，原来这些牌是桌子上牌堆中顶部的牌。
+
 ### 3.2 步骤
+
+1. 从第一个元素开始，该元素可以认为已经被排序；
+2. 取出下一个元素，在已经排序的序列中从后向前扫描；
+3. 如果该元素（已排序的）大于新元素，将该元素往右移到下一位置，重复该步骤，直到找到已排序的元素小于或者等于新元素的位置；
+4. 将新元素插入到步骤 3 找到的位置的后面；
+5. 重复步骤 2 到 4。
 
 ### 3.3 演示
 
+![img](https://gblobscdn.gitbook.com/assets%2F-Lm9JtwbhXVOfXyecToy%2F-Lm9KQIJAMvCgJQzErQS%2F-Lm9KSRUSDsU1-_gwBLT%2FinsertionSort.gif?alt=media)
+
 ### 3.4 实现
+
+```python
+def insertion_sort(arr):
+    for i in range(1, len(arr)):            # 将 i 看作摸到的牌的下标
+        value = arr[i]                      # 将摸到的牌储存到 value
+        j = i - 1                           # 将 j 看做手里的牌的下标
+        while j >= 0 and arr[j] > value:    # 如果手里的牌大于摸到的牌
+            arr[j + 1] = arr[j]             # 将手里的牌往右移一个位置
+            j -= 1                          # 下标 j 前移
+        arr[j + 1] = value                  # 将摸到的牌插入到 j + 1 位置
+    return arr
+```
 
 ## 4 希尔排序
 
