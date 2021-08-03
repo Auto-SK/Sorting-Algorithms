@@ -14,9 +14,12 @@
 from bubble_sort import *
 from selection_sort import *
 from insertion_sort import *
+from shell_sort import *
+from merge_sort import *
+from quick_sort import *
 
 if __name__ == '__main__':
-    sort = insertion_sort
+    sort = quick_sort
     arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48]
     print('Raw:', arr)
     arr = sort(arr)

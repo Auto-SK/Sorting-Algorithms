@@ -125,25 +125,94 @@ def insertion_sort(arr):
     return arr
 ```
 
-## 4 希尔排序
+## 4 希尔排序（Shell Sort）
 
 ### 4.1 原理
 
+希尔排序，也称递减增量排序，是插入排序的一种更高效的改进版本。但希尔排序是非稳定排序算法。
+
+希尔排序是基于插入排序的以下两点性质二提出改进方法的：
+
+* 插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率；
+* 但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。
+
+希尔排序的基本思想是：先将整个待排序的序列分割成若干子序列分别进行直接插入排序，待整个序列中的记录“基本有序”时，再对全体记录依次进行直接插入排序。
+
 ### 4.2 步骤
+
+1. n 为数组长度，首先取一个整数 d1=n/2，将元素分为 d1 个组，每组相邻两元素之间的距离为 d1-1，在各组内进行直接插入排序；
+2. 取第二个整数 d2=d1/2，重复步骤 1 分组排序过程，直到 di=1，即所有元素在同一组内进行直接插入排序。
+
+PS：希尔排序每趟并不使某些元素有序，而是使整体数据越来越接近有序；最后一趟排序使得所有数据有序。
 
 ### 4.3 演示
 
+![05希尔排序](https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A91/05%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F.gif)
+
 ### 4.4 实现
 
-## 5 归并排序
+分开写：
+
+```python
+def insertion_sort_gap(arr, gap):           # 将 gap 看作隔 gap 个距离摸一张牌，而不是依次按顺序摸牌
+    for i in range(gap, len(arr)):          # 将 i 看作摸到的牌的下标
+        value = arr[i]                      # 将摸到的牌存储到 value
+        j = i - gap                         # 将 j 看作手里的牌的下标
+        while j >= 0 and arr[j] > value:    # 如果手里的牌大于摸到的牌
+            arr[j + gap] = arr[j]           # 将手里的牌右移 gap 个距离
+            j -= gap                        # 下标 j 左移 gap 个距离
+        arr[j + gap] = value                # 将摸到的牌插入到 j + gap 位置
+
+
+def shell_sort_part(arr):                   # 分开写 shell 排序
+    d = len(arr) // 2                       # 第一次分组
+    while d >= 1:
+        insertion_sort_gap(arr, d)          # 调用插入排序
+        d //= 2                             # 整除 2 后再次分组
+    return arr
+```
+
+合到一起：
+
+```python
+def shell_sort(arr):                        # 合到一起
+    gap = len(arr) // 2                     # 第一次分组
+    while gap >= 1:                         # 将 gap 看作隔 gap 个距离摸一张牌，而不是依次顺序摸牌
+        for i in range(gap, len(arr)):      # 将 i 看作摸到的牌的下标
+            value = arr[i]                  # 将摸到的牌存储到 value
+            j = i - gap                     # 将 j 看作手里的牌的下标
+            while j >= 0 and arr[j] > value:
+                arr[j + gap] = arr[j]       # 将手里的牌右移 gap 个距离
+                j -= gap                    # 下标 j 左移 gap 个距离
+            arr[j + gap] = value            # 将摸到的怕插入到 j + gap 位置
+        gap //= 2                           # 整除 2 后再分组
+    return arr
+```
+
+## 5 归并排序（Merge Sort）
 
 ### 5.1 原理
 
+归并排序是记者能力在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。
 
+作为一种典型的分而治之思想的算法应用，归并排序的实现由两种方法：
+
+* 自上而下的递归；
+* 自下而上的迭代。
 
 ### 5.2 步骤
 
+1. 申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列；
+2. 设定两个指针，最初位置分别为两个已经排序序列的起始位置；
+3. 比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置；
+4. 重复步骤 3 直到某一指针到达序列尾部；
+5. 将另一序列剩下的所有元素直接复制到合并序列尾部。
+
+![Picture1.png](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/1614274007-nBQbZZ-Picture1.png)
+
 ### 5.3 演示
+
+![img](https://gblobscdn.gitbook.com/assets%2F-Lm9JtwbhXVOfXyecToy%2F-Lm9KQIJAMvCgJQzErQS%2F-Lm9KR9MTC7BHYOobU-Y%2FmergeSort.gif?alt=media)
 
 ### 5.4 实现
 
