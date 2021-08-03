@@ -32,7 +32,7 @@
 
 ### 1.3 演示
 
-![img](https://gblobscdn.gitbook.com/assets%2F-Lm9JtwbhXVOfXyecToy%2F-Lm9KQIJAMvCgJQzErQS%2F-Lm9KRSInFt3BHoLgdXb%2FbubbleSort.gif?alt=media)
+![bubbleSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/bubbleSort.gif)
 
 ### 1.4 实现
 
@@ -76,7 +76,7 @@ def bubble_sort_pro(arr):
 
 ### 2.3 演示
 
-![img](https://gblobscdn.gitbook.com/assets%2F-Lm9JtwbhXVOfXyecToy%2F-Lm9KQIJAMvCgJQzErQS%2F-Lm9KSObDh5VGWhPE8Wh%2FselectionSort.gif?alt=media)
+![selectionSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/selectionSort.gif)
 
 ### 2.4 实现
 
@@ -109,7 +109,7 @@ def selection_sort(arr):
 
 ### 3.3 演示
 
-![img](https://gblobscdn.gitbook.com/assets%2F-Lm9JtwbhXVOfXyecToy%2F-Lm9KQIJAMvCgJQzErQS%2F-Lm9KSRUSDsU1-_gwBLT%2FinsertionSort.gif?alt=media)
+![insertionSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/insertionSort.gif)
 
 ### 3.4 实现
 
@@ -147,7 +147,7 @@ PS：希尔排序每趟并不使某些元素有序，而是使整体数据越来
 
 ### 4.3 演示
 
-![05希尔排序](https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A91/05%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F.gif)
+![希尔排序](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F.gif)
 
 ### 4.4 实现
 
@@ -212,19 +212,54 @@ def shell_sort(arr):                        # 合到一起
 
 ### 5.3 演示
 
-![img](https://gblobscdn.gitbook.com/assets%2F-Lm9JtwbhXVOfXyecToy%2F-Lm9KQIJAMvCgJQzErQS%2F-Lm9KR9MTC7BHYOobU-Y%2FmergeSort.gif?alt=media)
+![mergeSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/mergeSort.gif)
 
 ### 5.4 实现
+
+```python
+def merge_sort(nums):
+    def mergesort(l, r):
+        # 终止条件
+        if l >= r:
+            return
+        # 递归划分
+        m = ((r - l) >> 1) + l
+        mergesort(l, m)
+        mergesort(m + 1, r)
+        # 合并阶段
+        i, j = l, m + 1
+        tmp[l: r + 1] = nums[l: r + 1]
+        for k in range(l, r + 1):
+            if i > m or (j <= r and tmp[i] > tmp[j]):
+                nums[k] = tmp[j]
+                j += 1
+            else:
+                nums[k] = tmp[i]
+                i += 1
+    tmp = [0] * len(nums)
+    mergesort(0, len(nums) - 1)
+    return nums
+```
 
 ## 6 快速排序
 
 ### 6.1 原理
 
+快速排序是对冒泡排序的一种改进。顾名思义快速排序就是快，而且效率高！它是处理大数据最快的排序算法之一了。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。
 
+>快速排序的最坏运行情况是 $O(n^2)$，比如说顺序数列的快排。但它的平摊期望时间是 $O(nlogn)$，且 $O(nlogn)$​ 记号中隐含的常数因子很小，比复杂度稳定等于 $O(nlogn)$ 的归并排序要小很多。所以，对绝大多数顺序性较弱的随机数列而言，快速排序总是优于归并排序。
 
 ### 6.2 步骤
 
+1. 从数列中挑出一个元素，称为“基准值”;
+2. 重新排序数列，所有元素比基准值小的放在基准值的左边，比基准值大的放在基准值的右边（相同的数可以到任一边）。在这个分区退出之后，该基准值就处于数列的中间位置。这个称为分区（partition）操作，也可以称为一次归位操作；
+3.  递归地把小于基准值元素的子数列和大于基准值元素的子数列按照步骤 1、2 排序。
+
+![Picture1.png](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/1612615552-rifQwI-Picture1.png)
+
 ### 6.3 演示
+
+![quickSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/quickSort.gif)
 
 ### 6.4 实现
 
