@@ -290,13 +290,63 @@ def quick_sort(arr):
 
 ### 7.1 原理
 
+堆排序是指利用堆这种数据结构所设计的一种排序算法。堆是一个完全二叉树，并且堆中每一个节点的值都必须大于等于或者（小于等于）其子树中每个节点的值。
 
+* 大顶堆：每个节点的值都大于等于其子树中每个节点的值，在堆排序算法中用于升序排列；
+* 小顶堆：每个节点的值都小于等于其子树中每个节点的值，在堆排序算法中用于降序排列。
+
+![11堆排序](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/Heap.png)
+
+>对于从 1 开始存储，长度为 n 的堆：数组下标为 i 的节点，其左子节点为 2 * i，右子节点为 2 * i + 1，父节点为 i / 2，最后一个非叶子节点为 n / 2；
+>
+>对于从 0 开始存储，长度为 n 的堆：数组下标为 i 的节点，其左子节点为 2 * i + 1，右子节点为 2 * i + 2，父节点为 (i - 1) / 2，最后一个非叶子节点为 n / 2 - 1。
 
 ### 7.2 步骤
 
+1. 构建堆：将待排序序列构建成一个堆 Hp[0, ..., n-1]，从最后一个非叶子节点开始，从右至左、从下至上进行调整。根据升序或者降序建立大顶堆或者小顶堆；
+2. 此时的堆顶元素，为最大或者最小元素；
+3. 把堆顶元素和堆尾元素互换，调整堆，重新使堆有序；
+4. 此时堆顶元素为第二大元素；
+5. 重复步骤 2 到 4，直到堆只剩一个元素。
+
 ### 7.3 演示
 
+![heapSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/heapSort.gif)
+
 ### 7.4 实现
+
+```python
+def build_heap(arr):
+    for i in range(len(arr) // 2 - 1,  -1, -1):     # 从 n / 2 - 1 到 0 开始建堆
+        heapify(arr, len(arr), i)
+
+
+def heapify(arr, n, i):
+    """
+    :param arr: 要建堆的数组
+    :param n: 堆的长度
+    :param i: 要入堆的元素的索引
+    :return: None
+    """
+    left = 2 * i + 1    # 左子节点
+    right = 2 * i + 2   # 右子节点
+    largest = i
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+
+def heap_sort(arr):
+    build_heap(arr)
+    for l in range(len(arr) - 1, 0, -1):    # 从 n - 1 到 1 重复堆化
+        arr[0], arr[l] = arr[l], arr[0]
+        heapify(arr, l, 0)
+    return arr
+```
 
 ## 8 桶排序
 
