@@ -217,7 +217,7 @@ def shell_sort(arr):                        # 合到一起
 ### 5.4 实现
 
 ```python
-def merge_sort(nums):
+def merge_sort(arr):
     def mergesort(l, r):
         # 终止条件
         if l >= r:
@@ -228,26 +228,26 @@ def merge_sort(nums):
         mergesort(m + 1, r)
         # 合并阶段
         i, j = l, m + 1
-        tmp[l: r + 1] = nums[l: r + 1]
+        tmp[l: r + 1] = arr[l: r + 1]
         for k in range(l, r + 1):
             if i > m or (j <= r and tmp[i] > tmp[j]):
-                nums[k] = tmp[j]
+                arr[k] = tmp[j]
                 j += 1
             else:
-                nums[k] = tmp[i]
+                arr[k] = tmp[i]
                 i += 1
-    tmp = [0] * len(nums)
-    mergesort(0, len(nums) - 1)
-    return nums
+    tmp = [0] * len(arr)
+    mergesort(0, len(arr) - 1)
+    return arr
 ```
 
-## 6 快速排序
+## 6 快速排序（Quick Sort）
 
 ### 6.1 原理
 
 快速排序是对冒泡排序的一种改进。顾名思义快速排序就是快，而且效率高！它是处理大数据最快的排序算法之一了。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。
 
->快速排序的最坏运行情况是 $O(n^2)$，比如说顺序数列的快排。但它的平摊期望时间是 $O(nlogn)$，且 $O(nlogn)$​ 记号中隐含的常数因子很小，比复杂度稳定等于 $O(nlogn)$ 的归并排序要小很多。所以，对绝大多数顺序性较弱的随机数列而言，快速排序总是优于归并排序。
+>快速排序的最坏运行情况是 $O(n^2)$，比如顺序数列的快排。但它的均摊期望时间是 $O(nlogn)$，且 $O(nlogn)$​ 记号中隐含的常数因子很小，比复杂度稳定等于 $O(nlogn)$ 的归并排序要小很多。所以，对绝大多数顺序性较弱的随机数列而言，快速排序总是优于归并排序。
 
 ### 6.2 步骤
 
@@ -286,7 +286,7 @@ def quick_sort(arr):
     return arr
 ```
 
-## 7 堆排序
+## 7 堆排序（Heap Sort）
 
 ### 7.1 原理
 

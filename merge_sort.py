@@ -13,7 +13,7 @@
 """
 
 
-def merge_sort(nums):
+def merge_sort(arr):
     def mergesort(l, r):
         # 终止条件
         if l >= r:
@@ -24,15 +24,15 @@ def merge_sort(nums):
         mergesort(m + 1, r)
         # 合并阶段
         i, j = l, m + 1
-        tmp[l: r + 1] = nums[l: r + 1]
+        tmp[l: r + 1] = arr[l: r + 1]
         for k in range(l, r + 1):
             if i > m or (j <= r and tmp[i] > tmp[j]):
-                nums[k] = tmp[j]
+                arr[k] = tmp[j]
                 j += 1
             else:
-                nums[k] = tmp[i]
+                arr[k] = tmp[i]
                 i += 1
-    tmp = [0] * len(nums)
-    mergesort(0, len(nums) - 1)
-    return nums
+    tmp = [0] * len(arr)
+    mergesort(0, len(arr) - 1)
+    return arr
 
