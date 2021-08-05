@@ -40,9 +40,9 @@
 
 ```python
 def bubble_sort(arr):
-    for i in range(len(arr)):
-        for j in range(len(arr) - i - 1):
-            if arr[j] > arr[j + 1]:
+    for i in range(len(arr)):               # 循环第 i 趟
+        for j in range(len(arr) - i - 1):   # j 为下标
+            if arr[j] > arr[j + 1]:         # 如果这个数大于后面的数就交换两者的位置
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
     return arr
 ```
@@ -51,13 +51,13 @@ def bubble_sort(arr):
 
 ```python
 def bubble_sort_pro(arr):
-    for i in range(len(arr)):
-        flag = False
-        for j in range(len(arr) - i - 1):
+    for i in range(len(arr)):               # 循环第 i 趟
+        flag = False                        # 每次都初始化标记
+        for j in range(len(arr) - i - 1):   # 如果这个数大于后面的数就交换两者的位置
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
-                flag = True
-        if not flag:
+                flag = True                 # 有逆序就设置标记
+        if not flag:                        # 标记没有变化就退出循环
             break
     return arr
 ```
@@ -348,38 +348,138 @@ def heap_sort(arr):
     return arr
 ```
 
-## 8 桶排序
+## 8 桶排序（Bucket Sort）
 
 ### 8.1 原理
 
+桶排序的核心思想是将要排序的数据分到几个有序的桶里，每个桶里的数据再单独进行排序。桶内排序完成之后，再把每个桶里的数据按照顺序依次取出，组成的序列就是有序的了。
 
+![img](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/987564607b864255f81686829503abae.jpg)
+
+假设要排序的数据有 n 个，把它们均匀地划分到 m 个桶内，每个桶里有 k=n/m 个元素。每个桶内部使用快速排序，时间复杂度为 O(k * logk)。m 个桶排序的时间复杂度就是 O(m * k * logk)，因为 k=n/m，所以整个桶排序的时间复杂度就是 O(n*log(n/m))。当桶的个数 m 接近数据个数 n 时，log(n/m) 就是一个非常小的常量，这个时候桶排序的时间复杂度接近 O(n)。
+
+* 最好情况：当输入的数据能够均匀地分配到每个桶中，此时的时间复杂度为 O(n)；
+* 最坏情况：当输入的数据都被分配到同一个桶中，此时的时间复杂度退化到 O(nlogn)。
+
+为了使桶排序更加高效，我们需要做到这两点：
+
+* 在额外空间充足的情况下，尽量增大桶的数量，桶排序比较适合用在外部排序中；
+* 使用的映射函数能够将输入的 n 个数据均匀地分配到 m 个桶中，并且桶与桶之间有着天然的大小顺序。
 
 ### 8.2 步骤
 
+1. 创建一个定量的数组当作空桶；
+2. 遍历序列，把元素依次放到对应的桶中；
+3. 对每个非空桶进行排序；
+4. 依次从非空桶中将元素取出放入原来的序列中。
+
 ### 8.3 演示
+
+![15桶排序](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/BucketSort.gif)
 
 ### 8.4 实现
 
-## 9 计数排序
+```python
+def bucket_sort(arr):
+    min_val = min(arr)
+    max_val = max(arr)
+    res = []
+
+    # 桶的初始化
+    bucket_size = 5  # 桶的大小
+    bucket_count = (max_val - min_val) // bucket_size + 1  # 桶的数量
+    buckets = [[] for _ in range(bucket_count)]
+
+    # 利用映射函数将数据分配到每个桶中
+    for a in arr:
+        i = (a - min_val) // bucket_size
+        buckets[i].append(a)
+    for bucket in buckets:
+        bucket.sort()
+    for bucket in buckets:
+        res.extend(bucket)  # 从 list 中提取
+    return res
+```
+
+## 9 计数排序（Counting Sort）
 
 ### 9.1 原理
 
+**计数排序其实是桶排序的一种特殊情况**。当要排序的 n 个数据，所处的范围并不大的时候，比如最大值是 k，我们就可以把数据划分成 k 个桶。每个桶内的数据值都是相同的，省掉了桶内排序的时间。
 
+计数排序的核心在于将输入的数据值转化为键存储在额外开辟的数组空间中。作为一种线性时间复杂度的排序，计数排序要求**输入的数据**必须是**有确定范围的整数**。
 
 ### 9.2 步骤
 
+1. 找到待排序列表中的最大值 k，开辟一个长度为 k + 1 的计数列表，计数列表中的值都为 0；
+2. 遍历待排序列表，如果遍历到的元素值为 i，则计数列表中索引 i 的值加1；
+3. 遍历完整个待排序列表，计数列表中索引 i 的值 j 表示 i 的个数为 j，统计出待排序列表中每个值的数量；
+4. 创建一个新列表（也可以清空原列表，在原列表中添加），遍历计数列表，依次在新列表中添加 j 个 i，新列表就是排好序后的列表，整个过程没有比较待排序列表中的数据大小。
+
 ### 9.3 演示
+
+![countingSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/countingSort.gif)
 
 ### 9.4 实现
 
-## 10 基数排序
+```python
+def counting_sort(arr):
+    if len(arr) < 2:
+        return arr
+    max_num = max(arr)
+    count = [0 for _ in range(max_num + 1)]  # 开辟一个计数列表
+    for a in arr:
+        count[a] += 1
+    arr.clear()
+    for ind, val in enumerate(count):  # 提出计数序列的索引和值
+        arr.extend([ind] * val)
+    return arr
+```
+
+## 10 基数排序（Radix Sort）
 
 ### 10.1 原理
 
+基数排序属于分配式排序，是一种**非比较型整数排序算法**，其原理是将整数按位数切割成不同的数字，然后按每个位数分别比较（**必须用稳定排序算法**）。由于整数也可以表达字符串（比如名字或日期）和特定格式的浮点数，所以基数排序也不是只能使用于整数。
 
+基数排序、计数排序、桶排序三种排序算法都利用了桶的概念，但对桶的使用方法上是有明显差异的：
+
+- 桶排序：每个桶存储一定范围的数值；
+- 计数排序：每个桶只存储单一键值；
+- 基数排序：根据键值的每位数字来分配桶。
 
 ### 10.2 步骤
 
+1. 取数组中的最大数，并取得位数；
+2. 从最低位开始，依次进行一次排序；
+3. 从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列。
+
 ### 10.3 演示
 
+![radixSort](https://cdn.jsdelivr.net/gh/Auto-SK/CDN/Articles/Sorting-Algorithms/radixSort.gif)
+
 ### 10.4 实现
+
+```python
+def radix_sort(arr):
+    digit = 0       # 当前位数
+    max_digit = 1   # 最大位数
+    max_value = max(arr)
+
+    # 找出序列中最大的位数
+    while 10 ** max_digit < max_value:
+        max_digit += 1
+
+    while digit < max_digit:
+        count = [[] for _ in range(10)]  # 开辟一个计数列表
+        for a in arr:
+            d = (a // 10 ** digit) % 10  # 求出 digit 位对应的值
+            count[d].append(a)
+        # 计数排序
+        arr.clear()
+        for c in count:
+            arr.extend(c)
+        digit += 1
+    return arr
+```
+

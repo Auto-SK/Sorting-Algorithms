@@ -18,9 +18,12 @@ from shell_sort import *
 from merge_sort import *
 from quick_sort import *
 from heap_sort import *
+from bucket_sort import *
+from counting_sort import *
+from radix_sort import *
 
 if __name__ == '__main__':
-    sort = heap_sort
+    sort = radix_sort
     arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48]
     print('Raw:', arr)
     arr = sort(arr)
