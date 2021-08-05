@@ -13,6 +13,8 @@
 | 桶排序 | $\Theta(n+k)$ | $\Omega(n+k)$ | $O(n^2)$ | $O(n+k)$ | 外部 | 稳定 |
 | 基数排序 | $\Theta(n\times k)$ | $\Omega(n\times k)$​ | $O(n\times k)$ | $O(n+k)$ | 外部 | 稳定 |
 
+算法的实现见[Sorting Algorithms](https://github.com/Auto-SK/Sorting-Algorithms)。
+
 ## 排序算法分类
 
 * 稳定性：**稳定排序算法**会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是**稳定**的，当有两个相等键值的纪录`R`和`S`，且在原本的列表中`R`出现在`S`之前，在排序过的列表中`R`也将会是在`S`之前。
@@ -482,4 +484,16 @@ def radix_sort(arr):
         digit += 1
     return arr
 ```
+
+## 相关参考
+
+1. [十大经典排序算法](https://sort.hust.cc/)
+
+2. [Python 实现十大经典排序算法](https://www.itrhx.com/2020/10/23/A91-sorting-algorithm/)
+
+3. [数据结构与算法之美](https://time.geekbang.org/column/intro/126)
+
+4. [数据结构和算法必知必会的50个代码实现](https://github.com/wangzheng0822/algo)
+
+5. [十大排序python实现【精讲】合集 八大排序算法必学](https://zhuanlan.zhihu.com/p/144935860)
 
